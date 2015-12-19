@@ -1,46 +1,20 @@
 var models = require('../models');
-var dbConnection = require('../db/index.js');
 
 module.exports = {
   messages: {
     get: function(req, res) {
+      console.log('controllers messages get');
 
-        console.log('messages get');
-
-        var sql = 'select * from `messages`';
-
-        console.log(sql);
-
-        var queryArgs = [];
-        dbConnection.query(sql, function(err, results) {
-
-          if (err) {
-            console.log(err);
-          }
-
-          console.log(results);
-
-          res.status(200).end(JSON.stringify(results));
-        });
+      models.messages.get(req, function(results) {
+        res.status(200).end(JSON.stringify(results));
+      });
 
     }, // a function which handles a get request for all messages
     post: function(req, res) {
 
-        console.log('messages post');
+        console.log('controllers messages post');
 
-        var sql = 'INSERT INTO `messages` (`message`, `room_id`, `user_id`) ';
-        sql += ' VALUES ("' + req.body.message + '","' + req.body.room_id + '","' + req.body.user_id + '")'; 
-
-        console.log(sql);
-
-        var queryArgs = [];
-        dbConnection.query(sql, function(err, results) {
-
-          if (err) {
-            console.log(err);
-          }
-
-          //dbConnection.end();
+        models.messages.get(req, function(results) {
           res.status(200).end();
         });
 
@@ -50,25 +24,17 @@ module.exports = {
   users: {
     // Ditto as above
     get: function(req, res) {
+      console.log('controllers users get');
 
+      models.users.get(req, function(results) {
+        res.status(200).end(JSON.stringify(results));
+      });
     },
 
     post: function(req, res) {
+      console.log('controllers users post');
 
-      console.log('users post');
-
-      var sql = 'INSERT INTO `users` (`name`) VALUE ("' + req.body.username + '")';
-
-      console.log(sql);
-
-      var queryArgs = [];
-
-      dbConnection.query(sql, function(err, results) {
-        if (err) {
-          console.log(err);
-        }
-
-        //dbConnection.end();
+      models.users.post(req, function(results) {
         res.status(200).end();
       });
     }

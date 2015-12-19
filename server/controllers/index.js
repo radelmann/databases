@@ -14,7 +14,7 @@ module.exports = {
 
         console.log('controllers messages post');
 
-        models.messages.get(req, function(results) {
+        models.messages.post(req, function(results) {
           res.status(200).end();
         });
 

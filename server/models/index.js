@@ -6,7 +6,10 @@ module.exports = {
     get: function(req, callback) {
       console.log('models messages get');
 
-      var sql = 'select * from messages';
+      var sql = 'SELECT DISTINCT messages.*, rooms.name as room_name, users.name as user_name \
+              FROM messages \
+              JOIN users on messages.user_id = users.id \
+              JOIN rooms on messages.room_id = rooms.id;';
 
       dbConnection.query(sql, function(err, results) {
         if (err) {
@@ -21,11 +24,12 @@ module.exports = {
     post: function(req, callback) {
         console.log('models messages post');
 
-        //todo escape values
-        var sql = 'INSERT INTO `messages` (`message`, `room_id`, `user_id`) ';
-        sql += ' VALUES ("' + req.body.message + '","' + req.body.room_id + '","' + req.body.user_id + '")';
+        console.log(req.body);
 
-        dbConnection.query(sql, function(err, results) {
+        var params = [req.body.message, req.body.room_id, req.body.user_id];
+        var sql = 'INSERT INTO `messages` (`message`, `room_id`, `user_id`) VALUES (?,?,?)';
+
+        dbConnection.query(sql, params, function(err, results) {
           if (err) {
             console.log(err);
           }

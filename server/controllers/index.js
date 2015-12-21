@@ -6,10 +6,15 @@ module.exports = {
       console.log('controllers messages get');
 
       models.messages.get(req, function(results) {
-        res.status(200).end(JSON.stringify(results));
+
+        var resultsObj = {
+          results: results
+        };
+
+        res.status(200).end(JSON.stringify(resultsObj));
       });
 
-    }, // a function which handles a get request for all messages
+    }, 
     post: function(req, res) {
 
         console.log('controllers messages post');
@@ -18,11 +23,10 @@ module.exports = {
           res.status(200).end();
         });
 
-      } // a function which handles posting a message to the database
+      } 
   },
 
   users: {
-    // Ditto as above
     get: function(req, res) {
       console.log('controllers users get');
 
